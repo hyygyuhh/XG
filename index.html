@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AstroBox 网页版</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <span class="mark" aria-hidden="true"></span>
+        <div>
+          <strong>AstroBox</strong>
+          <span>网页版</span>
+        </div>
+      </div>
+      <button id="connect-open" class="ghost" type="button">连接设备</button>
+    </header>
+
+    <main>
+      <section id="device-panel" class="device-panel"></section>
+      <section class="toolbar">
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab active" data-kind="quick_app">应用</button>
+          <button type="button" class="tab" data-kind="watchface">表盘</button>
+        </div>
+        <label class="search">
+          <span class="sr">搜索</span>
+          <input id="search" type="search" placeholder="搜索名称、标签或包名" autocomplete="off" />
+        </label>
+        <label class="device-pick">
+          <span>型号</span>
+          <select id="device"></select>
+        </label>
+        <label class="check">
+          <input id="only-device" type="checkbox" checked />
+          只看这个型号
+        </label>
+      </section>
+
+      <p id="summary" class="summary">正在读取资源目录…</p>
+      <div id="grid" class="grid"></div>
+      <button id="more" class="more" type="button" hidden>继续加载</button>
+    </main>
+
+    <dialog id="detail">
+      <form method="dialog" class="sheet">
+        <button class="close" value="cancel" type="submit" aria-label="关闭">关闭</button>
+        <div id="detail-body"></div>
+      </form>
+    </dialog>
+
+    <dialog id="device-dialog">
+      <form class="sheet device-sheet" id="device-form">
+        <button class="close" type="button" id="device-close" aria-label="关闭">关闭</button>
+        <h2>连接设备</h2>
+        <p class="hint" id="transport-hint"></p>
+        <label>
+          显示名称
+          <input id="device-name" type="text" placeholder="可留空，连接后用手环自己的名字" />
+        </label>
+        <label>
+          认证密钥
+          <input id="authkey" type="password" autocomplete="off" spellcheck="false" placeholder="32 位 authkey" />
+        </label>
+        <p class="hint">密钥只保存在这台浏览器里。手环需要先在系统蓝牙中配对成串口，并用电脑上的 Chrome 或 Edge 打开本页。</p>
+        <div class="row">
+          <button id="connect" type="button">选择串口并连接</button>
+          <button id="disconnect" class="ghost" type="button" hidden>断开</button>
+        </div>
+        <p id="link-status" class="status">未连接</p>
+        <section class="local">
+          <h3>从本地文件安装</h3>
+          <p class="hint">应用选 .rpk，表盘选 .bin。网页版不安装固件。</p>
+          <input id="local-file" type="file" accept=".rpk,.bin,.mwz,.zip" />
+          <button id="local-install" type="button">安装所选文件</button>
+        </section>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status"></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
