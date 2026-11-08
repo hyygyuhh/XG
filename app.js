@@ -198,7 +198,7 @@ async function loadCatalog() {
 }
 
 async function loadWasm() {
-  if (state.wasm || state.wasmError) return state.wasm;
+  if (state.wasm) return state.wasm;
   try {
     const mod = await import("./wasm/astrobox_ng_wasm.js");
     await mod.default();
@@ -212,10 +212,17 @@ async function loadWasm() {
       }
     });
     state.wasm = mod;
+    state.wasmError = "";
   } catch (error) {
     state.wasmError = error instanceof Error ? error.message : String(error);
   }
   return state.wasm;
+}
+
+function backendUnavailable() {
+  return state.wasmError
+    ? `安装后端没有加载起来：${state.wasmError}`
+    : "安装后端还没编译，暂时不能写入设备。";
 }
 
 function setLinkStatus(text, kind) {
@@ -234,7 +241,7 @@ function refreshDeviceButtons() {
 
 function startConnect() {
   if (!state.wasm) {
-    setLinkStatus("安装后端还没编译，现在只能浏览和挑选资源。", "bad");
+    setLinkStatus(backendUnavailable(), "bad");
     return null;
   }
   if (!navigator.serial) {
@@ -429,7 +436,7 @@ async function onDeviceAction(action, index, kind) {
 
 async function installBytes({ bytes, name, restype, packageName, watchfaceId, onProgress }) {
   const wasm = state.wasm || (await loadWasm());
-  if (!wasm) throw new Error("安装后端还没编译，暂时不能写入设备。");
+  if (!wasm) throw new Error(backendUnavailable());
   if (!state.session) throw new Error("先连接设备。");
   const detected = await wasm.device_get_file_type(bytes, name);
   if (detected === FIRMWARE) throw new Error("网页版不安装固件。");
@@ -458,7 +465,7 @@ async function installBytes({ bytes, name, restype, packageName, watchfaceId, on
 async function installCatalogFile(item, fileName, progressNode) {
   if (state.busy) return;
   const wasm = state.wasm || (await loadWasm());
-  if (!wasm) throw new Error("安装后端还没编译，暂时不能写入设备。");
+  if (!wasm) throw new Error(backendUnavailable());
   if (!state.session) throw new Error("先连接设备。");
   state.busy = true;
   try {
