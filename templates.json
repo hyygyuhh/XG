@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 4,
+  "templates": [
+    {
+      "id": "stretch-smile",
+      "name": "双指扯嘴",
+      "description": "双指向两侧拉，嘴角与脸颊一起回弹。",
+      "color": "#ffe16f",
+      "reference": "0.00 s",
+      "durationMs": 2000,
+      "contact": "pull",
+      "motion": [
+        [
+          0.0,
+          0
+        ],
+        [
+          233.333,
+          0
+        ],
+        [
+          266.667,
+          0.35
+        ],
+        [
+          333.333,
+          0.95
+        ],
+        [
+          366.667,
+          1
+        ],
+        [
+          833.333,
+          1
+        ],
+        [
+          933.333,
+          0.97
+        ],
+        [
+          1000.0,
+          0.52
+        ],
+        [
+          1033.333,
+          0
+        ],
+        [
+          2000.0,
+          0
+        ]
+      ],
+      "regions": [
+        {
+          "anchor": "mouth",
+          "width": 1.53,
+          "height": 0.62,
+          "stretchX": 0.86,
+          "stretchY": 0.36
+        },
+        {
+          "anchor": "lowerFace",
+          "width": 1.52,
+          "height": 0.94,
+          "stretchX": 0.29,
+          "stretchY": 0.04
+        }
+      ],
+      "referenceStartFrame": 0
+    }
+  ],
+  "referenceFrameRate": 30
+}
